@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/20 17:24:39 by paalexan         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:32:02 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,31 @@ static char	*read_to_buffer(int fd, char *leftover)
 
 char	*get_next_line(int fd)
 {
-	static char	*leftover;
+	static char	*leftover[FD_SETSIZE];
 	char	*line;
 	char	*tmp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= FD_SETSIZE)
 		return (NULL);
-	leftover = read_to_buffer(fd, leftover);
-	if (!leftover || !*leftover)
+	leftover[fd] = read_to_buffer(fd, leftover[fd]);
+	if (!leftover[fd] || !*leftover[fd])
 	{
-		free(leftover);
+		free(leftover[fd]);
+		leftover[fd] = NULL;
 		return (NULL);
 	}
-	if (ft_strchr_gnl(leftover, '\n'))
+	if (ft_strchr_gnl(leftover[fd], '\n'))
 	{
-		line = ft_substr_gnl(leftover, 0, ft_strchr_gnl(leftover, '\n') - leftover + 1);
-		tmp = ft_strdup_gnl(ft_strchr_gnl(leftover, '\n') + 1);
-		free(leftover);
-		leftover = tmp;
+		line = ft_substr_gnl(leftover[fd], 0, ft_strchr_gnl(leftover[fd], '\n') - leftover[fd] + 1);
+		tmp = ft_strdup_gnl(ft_strchr_gnl(leftover[fd], '\n') + 1);
+		free(leftover[fd]);
+		leftover[fd] = tmp;
 	}
 	else
 	{
-		line = ft_strdup_gnl(leftover);
-		free(leftover);
-		leftover = NULL;
+		line = ft_strdup_gnl(leftover[fd]);
+		free(leftover[fd]);
+		leftover[fd] = NULL;
 	}
 	return (line);
 }
