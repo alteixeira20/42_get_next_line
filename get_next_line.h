@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:44:58 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/20 16:18:43 by paalexan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:16:09 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 size_t	ft_strlen_gnl(const char *str);
 char	*ft_strchr_gnl(const char *s, int c);
+void	ft_strcpy_gnl(char *dest, char *src, unsigned int *index);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_strdup_gnl(const char *s);
 char	*get_next_line(int fd);

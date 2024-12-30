@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:04:20 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/20 16:46:30 by paalexan         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:15:41 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlen_gnl(const char *str)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
-}
 
 char	*ft_strchr_gnl(const char *s, int c)
 {
@@ -45,11 +31,24 @@ char	*ft_strchr_gnl(const char *s, int c)
 		return (NULL);
 }
 
+void	ft_strcpy_gnl(char *dest, char *src, unsigned int *index)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[*index + i] = src[i];
+		i++;
+	}
+	*index += i;
+}
+
 char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char			*dest;
-	unsigned int	i;
-	unsigned int	k;
+	unsigned int	len;
+	unsigned int	index;
 
 	if (!s1 && !s2)
 		return (NULL);
@@ -57,22 +56,14 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 		return (ft_strdup_gnl(s2));
 	if (!s2)
 		return (ft_strdup_gnl(s1));
-	dest = malloc((ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1) * sizeof(char));
+	len = ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1;
+	dest = malloc(len * sizeof(char));
 	if (!dest)
 		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	k = 0;
-	while (s2[k])
-	{
-		dest[i + k] = s2[k];
-		k++;
-	}
-	dest[i + k] = '\0';
+	index = 0;
+	ft_strcpy_gnl(dest, s1, &index);
+	ft_strcpy_gnl(dest, s2, &index);
+	dest[index] = '\0';
 	free(s1);
 	return (dest);
 }
