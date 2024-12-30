@@ -1,0 +1,39 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    run_test.sh                                        :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/30 16:58:38 by paalexan          #+#    #+#              #
+#    Updated: 2024/12/30 16:58:51 by paalexan         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# Colors
+BOLD=$(tput bold)
+GREEN=$(tput setaf 10)
+RED=$(tput setaf 9)
+RESET=$(tput sgr0)
+
+# Test files
+TEST_FILES=("42_with_nl" "42_no_nl" "big_line_with_nl" "big_line_no_nl" \
+            "alternate_line_nl_with_nl" "alternate_line_nl_no_nl" \
+            "multiple_line_with_nl" "multiple_line_no_nl" "nl" "multiple_nlx5")
+
+echo "Starting Tests..."
+
+# Iterate through each test file
+for test_file in "${TEST_FILES[@]}"; do
+    TEST_NAME=$(basename "$test_file")
+    echo -n "${BOLD}Running $TEST_NAME: ${RESET}"
+    
+    ./test_basic "test_cases/$test_file" > "tests/output/$test_file.out"
+    diff "tests/expected/$test_file.out" "tests/output/$test_file.out" > /dev/null
+
+    if [ $? -eq 0 ]; then
+        echo "${GREEN}SUCCESS${RESET}"
+    else
+        echo "${RED}KO${RESET}"
+    fi
+done
