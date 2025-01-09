@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2025/01/09 17:05:24 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:12:30 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ static char	*extract_line(char **leftover)
 	{
 		line = ft_substr_gnl(*leftover, 0, newline_pos - *leftover + 1);
 		tmp = ft_strdup_gnl(newline_pos + 1);
+		if (!tmp)
+		{
+			free(line);
+			return (NULL);
+		}
 		free(*leftover);
 		*leftover = tmp;
 	}
@@ -80,7 +85,7 @@ static char	*extract_line(char **leftover)
 char	*get_next_line(int fd)
 {
 	static char	*leftover[FD_SETSIZE];
-	char		*tmp;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= FD_SETSIZE)
 		return (NULL);
@@ -91,31 +96,49 @@ char	*get_next_line(int fd)
 		leftover[fd] = NULL;
 		return (NULL);
 	}
-	tmp = extract_line(&leftover[fd]);
-	free(*leftover);
-	return (tmp);
+	line = extract_line(&leftover[fd]);
+	if (!line)
+	{
+		free(*leftover);
+		*leftover = NULL;
+	}
+	return (line);
 }
 /*
 #include <stdio.h>
 int	main(void)
 {
-	int	fd;
+	int	fd1, fd2, fd3;
 	char	*line;
 
 	// Open the file "test.txt" in read-only mode
-	fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
+	fd1 = open("test1.txt", O_RDONLY);
+	fd2 = open("test2.txt", O_RDONLY);
+	fd3 = open("test3.txt", O_RDONLY);
+	if (fd1 < 0 && fd2 < 0 && fd3 < 0)
 	{
 		perror("Error opening file");
 		return (1);
 	}
 	// Read lines using get_next_line and print them
-	while ((line = get_next_line(fd)) != NULL)
+	while ((line = get_next_line(fd1)) != NULL)
 	{
 		printf("%s", line);
 		free(line); // Don't forget to free the line after use
+		line = get_next_line(fd2);
+		printf("%s", line);
+		free(line); // Don't forget to free the line after us
+		
+		line = get_next_line(fd3);
+		printf("%s", line);
+		free(line); // Don't forget to free the line after us
 	}
 	// Close the file descriptor
-	close(fd);
+	close(fd1);
+	close(fd2);
+	close(fd3);
+	get_next_line(fd1); // Ensure any leftover static memory is freed
+	get_next_line(fd2);
+	get_next_line(fd3);
 	return (0);
 }*/

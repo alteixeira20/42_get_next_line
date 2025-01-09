@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2025/01/09 17:05:49 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:37:06 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ static char	*extract_line(char **leftover)
 	{
 		line = ft_substr_gnl(*leftover, 0, newline_pos - *leftover + 1);
 		tmp = ft_strdup_gnl(newline_pos + 1);
+		if (!tmp)
+		{
+			free(line);
+			return (NULL);
+		}
 		free(*leftover);
 		*leftover = tmp;
 	}
@@ -80,7 +85,7 @@ static char	*extract_line(char **leftover)
 char	*get_next_line(int fd)
 {
 	static char	*leftover;
-	char		*tmp;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -91,9 +96,13 @@ char	*get_next_line(int fd)
 		leftover = NULL;
 		return (NULL);
 	}
-	tmp = extract_line(&leftover);
-	free(leftover);
-	return (tmp);
+	line = extract_line(&leftover);
+	if (!line)
+	{
+		free(leftover);
+		leftover = NULL;
+	}
+	return (line);
 }
 /*
 #include <stdio.h>
@@ -109,9 +118,12 @@ int	main(void)
 		perror("Error opening file");
 		return (1);
 	}
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line); // Don't forget to free the line after use
+	// Read lines using get_next_line and print them
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line); // Don't forget to free the line after use
+	}
 	// Close the file descriptor
 	close(fd);
 	return (0);
