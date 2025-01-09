@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:18:39 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:05:49 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static char	*extract_line(char **leftover)
 char	*get_next_line(int fd)
 {
 	static char	*leftover;
+	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -90,5 +91,28 @@ char	*get_next_line(int fd)
 		leftover = NULL;
 		return (NULL);
 	}
-	return (extract_line(&leftover));
+	tmp = extract_line(&leftover);
+	free(leftover);
+	return (tmp);
 }
+/*
+#include <stdio.h>
+int	main(void)
+{
+	int	fd;
+	char	*line;
+
+	// Open the file "test.txt" in read-only mode
+	fd = open("test.txt", O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (1);
+	}
+	line = get_next_line(fd);
+	printf("%s", line);
+	free(line); // Don't forget to free the line after use
+	// Close the file descriptor
+	close(fd);
+	return (0);
+}*/

@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:04:20 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:14:55 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:49:37 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strchr_gnl(const char *s, int c)
 {
@@ -77,7 +77,7 @@ char	*ft_strdup_gnl(const char *s)
 	if (!s)
 		return (NULL);
 	len_s = ft_strlen_gnl(s) + 1;
-	dest = (char *)malloc(sizeof(char) * len_s);
+	dest = (char *)malloc(sizeof(char) * len_s + 1);
 	if (!dest)
 		return (NULL);
 	i = 0;

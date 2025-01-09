@@ -6,25 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:21:02 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:05:24 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:40:00 by paalexan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen_gnl(const char *str)
 {
@@ -94,6 +80,7 @@ static char	*extract_line(char **leftover)
 char	*get_next_line(int fd)
 {
 	static char	*leftover[FD_SETSIZE];
+	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= FD_SETSIZE)
 		return (NULL);
@@ -104,5 +91,31 @@ char	*get_next_line(int fd)
 		leftover[fd] = NULL;
 		return (NULL);
 	}
-	return (extract_line(&leftover[fd]));
+	tmp = extract_line(&leftover[fd]);
+	free(*leftover);
+	return (tmp);
 }
+/*
+#include <stdio.h>
+int	main(void)
+{
+	int	fd;
+	char	*line;
+
+	// Open the file "test.txt" in read-only mode
+	fd = open("test.txt", O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (1);
+	}
+	// Read lines using get_next_line and print them
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line); // Don't forget to free the line after use
+	}
+	// Close the file descriptor
+	close(fd);
+	return (0);
+}*/

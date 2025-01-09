@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:44:58 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:19:05 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:37:18 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 size_t	ft_strlen_gnl(const char *str);
 char	*ft_strchr_gnl(const char *s, int c);

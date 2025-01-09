@@ -6,11 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:04:20 by paalexan          #+#    #+#             */
-/*   Updated: 2024/12/30 20:15:41 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:32:09 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strchr_gnl(const char *s, int c)
 {
