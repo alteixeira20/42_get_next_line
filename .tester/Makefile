@@ -6,7 +6,7 @@
 #    By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/30 19:27:01 by paalexan          #+#    #+#              #
-#    Updated: 2024/12/30 20:06:55 by paalexan         ###   ########.fr        #
+#    Updated: 2025/02/26 23:09:38 by paalexan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIB := libgnl.a
 
 # Source Files
 MANDATORY_SRC := $(SRC_DIR)/get_next_line.c $(SRC_DIR)/get_next_line_utils.c
-BONUS_SRC := $(SRC_DIR)/get_next_line_bonus.c $(SRC_DIR)/get_next_line_utils_bonus.c
+BONUS_SRC := $(SRC_DIR)/get_next_line_bonus.c $(SRC_DIR)/get_next_line_utils_bonus.c $(SRC_DIR)/get_next_line_utils2_bonus.c
 
 # Object Files
 MANDATORY_OBJ := $(patsubst $(SRC_DIR)/%.c, %.o, $(MANDATORY_SRC))

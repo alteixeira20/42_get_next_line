@@ -6,23 +6,11 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2025/02/26 22:00:13 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:13:34 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-size_t	ft_strlen_gnl(const char *str)
-{
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 static char	*handle_read_error(char *buffer, char *leftover)
 {
@@ -83,11 +71,29 @@ static char	*extract_line(char **leftover)
 	return (line);
 }
 
+static void	cleanup_gnl(char *leftover[])
+{
+	int	i;
+
+	i = 0;
+	while (i < FD_SETSIZE)
+	{
+		free(leftover[i]);
+		leftover[i] = NULL;
+		i++;
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*leftover[FD_SETSIZE];
 	char		*line;
 
+	if (fd == -1)
+	{
+		cleanup_gnl(leftover);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= FD_SETSIZE)
 		return (NULL);
 	leftover[fd] = read_to_buffer(fd, leftover[fd]);
