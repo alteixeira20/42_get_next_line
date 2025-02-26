@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2025/01/09 18:12:30 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:46:55 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ char	*get_next_line(int fd)
 	line = extract_line(&leftover[fd]);
 	if (!line)
 	{
-		free(*leftover);
-		*leftover = NULL;
+		free(leftover[fd]);
+		leftover[fd] = NULL;
 	}
 	return (line);
 }
