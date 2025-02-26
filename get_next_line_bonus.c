@@ -6,7 +6,7 @@
 /*   By: paalexan <paalexan@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:20:08 by paalexan          #+#    #+#             */
-/*   Updated: 2025/02/26 21:50:17 by paalexan         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:00:13 by paalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static char	*extract_line(char **leftover)
 	char	*newline_pos;
 
 	newline_pos = ft_strchr_gnl(*leftover, '\n');
+	tmp = NULL;
 	if (newline_pos)
 	{
 		line = ft_substr_gnl(*leftover, 0, newline_pos - *leftover + 1);
