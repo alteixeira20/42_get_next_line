@@ -27,13 +27,15 @@
 - Each test binary in `.tester/tests` is intentionally tiny: it links against `libgnl.a` and drives real file descriptors sourced from `tests/test_cases/`, isolating individual behaviours such as empty files, giant lines, and alternating newline ends.
 - The harness favours autonomy: building the suite, running it, and capturing transcripts happen in one workspace without relying on external testers or third-party frameworks.
 
-<table>
-  <tr>
-    <td><img src="docs/images/make_bonus.png" alt="Using the tester Makefile" width="100%" /></td>
-    <td><img src="docs/images/running_test.png" alt="Executing the tester run" width="100%" /></td>
-  </tr>
-</table>
-<p align="center"><em>Running tester &amp; showcasing results at a glance</em></p>
+<p align="center">
+  <img src="docs/images/make_bonus.png" alt="Using the tester Makefile" width="100%" />
+</p>
+<p align="center"><em>Kick off the tester build directly from the dedicated Makefile.</em></p>
+
+<p align="center">
+  <img src="docs/images/running_test.png" alt="Executing the tester run" width="100%" />
+</p>
+<p align="center"><em>Execute the harness suite and track the pass/fail stream live.</em></p>
 
 ## <a id="subject-compliance"></a>Subject Compliance
 - Respects the official specification (`docs/subject_gnl.pdf`) by keeping globals off limits and relying on the mandated static variable strategy inside `get_next_line`.
@@ -97,10 +99,6 @@ make run      # build library, compile harnesses, and execute regression suite
 - Generated transcripts land in `.tester/tests/expected/` with the naming convention `<fixture>_<test>.out`, enabling deterministic diffs against the fixtures or peer outputs.
 - The tester output doubles as a progress log; store it (e.g., `make run | tee tester.log`) and apply the AWK one-liner above to archive trend data across iterations.
 - Failures are immediately visible thanks to the exit-status checks, making it easy to pinpoint which harness/input pair triggered the regression.
-
-## <a id="related-projects"></a>Related Projects
-- `libft`: foundational utility set that inspired the naming of our helper functions, even though this project ships its own minimalist clones.
-- Upcoming core projects (`ft_printf`, `pipex`) benefit from the streaming patterns and buffer discipline refined here, especially static state management.
 
 ## <a id="credits"></a>Credits
 Crafted by paalexan at 42 Porto. Feel free to study, adapt, or extend the work—attribution is appreciated when sharing or forking.
